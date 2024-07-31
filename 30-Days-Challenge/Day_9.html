@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Element</title>
+    <style>
+        .special{
+            background-color: darkcyan;
+            padding: 5px;
+            width: 250px;
+            text-align: center;
+            border-radius: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color: brown;
+        }
+        #mouse{
+            margin: 10px;
+            padding: 3px;
+            width: 250px;
+            text-align: center;
+            border: 5px solid black;
+            background-color: rgb(75, 161, 53);
+        }
+        #text {
+            display: block;
+        }
+        #changetext {
+            display: none;
+        }
+       
+       
+    </style>
+</head>
+<body>
+  
+    <h1 class="element1">HTML</h1>
+   <h2 id="element2">Hyper Text Markup Language</h2>
+   <div >
+    <ul class="week">
+        <li>Monday</li>
+        <li>Tuesday</li>
+        <li>Wednesday</li>
+        <li>Thursday</li>
+        <li>Friday</li>
+    </ul>
+   </div>
+   
+   <div>
+    <img id="image1" src="./spring.jpeg" alt="spring">
+   </div>
+
+   <div>
+    <img id="oldimage" src="./autumn.jpeg" alt="autumn">
+    <br /> <button id="button">Change Image</button>
+   </div>
+
+   <div>
+    <h1 id="styling">Using ClassList</h1>
+    <button id="button2">Change Appearance</button>
+   </div>
+
+   <div>
+    <p id="text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore, nesciunt!</p>
+    <p id="changetext">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem veniam similique quia est corporis, neque nemo voluptatibus amet dolorem saepe obcaecati facilis voluptates voluptas ratione!</p>
+    <button id="changecontext">Change Context</button>
+   </div>
+
+   <div>
+    <div id="mouse">Hover over this element</div>
+   </div>
+    
+</body>
+<script>
+    // **************************Activity 1: Selecting and Manipulating Element**********************************
+
+    let changetext = document.getElementsByClassName('element1')  //it return HTML collection 
+    //convert HTML collection into array
+    Array.from(changetext).forEach(element => {
+        element.textContent = 'JS'
+        element.style.backgroundColor = 'green'
+    });
+    
+
+    let changetext2 = document.getElementById('element2')  //The getElementById method returns a single element, not a collection. 
+    changetext2.innerHTML = 'Java Script'
+
+    // **************************Activity 2: Creating and Appending Element***********************************
+
+    const div = document.createElement('div')
+    div.className = 'element3'
+    div.id = 'element3'
+    div.setAttribute('title', 'language')
+    // div.innerText = 'CSS'
+    div.style.color = 'Grey'
+     div.style.padding = '20px'
+    console.log(div);
+    // document.body.appendChild(div)
+    
+    //More preferable to add text
+    const addtext = document.createTextNode('Cascade Style Sheet')
+    div.appendChild(addtext);
+    document.body.appendChild(div)
+
+    const li = document.createElement('li')
+    console.log(li);
+    li.appendChild(document.createTextNode('Saturday'))
+    document.body.querySelector('.week').appendChild(li)
+    console.log(li);
+
+    // **************************Activity 3: Removing Element***********************************
+
+    const removeElement = document.querySelector('li:nth-child(2)')
+    removeElement.remove();
+
+    const removeElement2 = document.getElementById('element3')
+    removeElement2.remove()
+
+    // **************************Activity 4: Modifying Attributes and Classes***********************************
+
+    const image2 = document.getElementById('image1')
+    image2.src="./autumn.jpeg"
+
+    document.getElementById('button').addEventListener('click', function(e){
+        const newimage = document.getElementById('oldimage')
+        newimage.src="./spring.jpeg"
+    })
+
+    document.getElementById('button2').addEventListener('click', function(e){
+       let appearance =  document.getElementById('styling');
+        appearance.classList.toggle('special');
+        console.log(appearance);
+    })
+
+    // **************************Activity 4: Event Handling***********************************
+
+    document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#changecontext').addEventListener('click', function() {
+                // Get the elements
+                let textElement = document.getElementById('text');
+                let changeTextElement = document.getElementById('changetext');
+                
+                // Toggle visibility
+                if (textElement.style.display === 'block') {
+                    changeTextElement.style.display = 'none';
+                } else {
+                    textElement.style.display = 'none';
+                    changeTextElement.style.display = 'block';
+                }
+
+                // if (textElement.style.display === 'none') {
+                //     textElement.style.display = 'block';
+                //     changeTextElement.style.display = 'none';
+                // } else {
+                //     textElement.style.display = 'none';
+                //     changeTextElement.style.display = 'block';
+                // }
+
+               
+            });
+        });
+document.querySelector('#mouse').addEventListener('mouseover', function(){
+    this.style.border= '3px solid blue'
+})
+document.querySelector('#mouse').addEventListener('mouseout', function(){
+            this.style.border = '3px solid black';
+        });
+
+    
+
+
+
+
+   
+
+</script>
+</html>
+
+
+<!-- To add or remove a CSS class from an HTML element using JavaScript, you can use the classList API -
+element.classList.add('highlight') adds the highlight class to the element.
+element.classList.remove('highlight') removes the highlight class from the element.
+element.classList.toggle('highlight') adds the highlight class if it’s not already present, and removes it if it is.
