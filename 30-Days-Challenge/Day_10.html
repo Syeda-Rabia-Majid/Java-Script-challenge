@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Listener</title>
+    <style>
+        #text {
+            display: block;
+        }
+
+        #changetext {
+            display: none;
+        }
+
+        .img-toggle {
+            margin-bottom: 6px;
+            margin-left: 50px;
+        }
+
+        h2 {
+            color: brown;
+            padding-left: 10px;
+            margin-left: 10px;
+        }
+
+        h1 {
+            background-color: darkcyan;
+            padding: 5px;
+            width: 250px;
+            text-align: center;
+            border-radius: 10px;            
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color: rgb(17, 16, 16);
+        }
+
+        .bg {
+            background-color: crimson;
+        }
+
+        .appear {
+            display: none;
+        }
+
+        input#keyinput {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        p#displayParagraph {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+        ul li{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="changecontext">Change Context</button>
+        <p id="text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita nam libero veritatis sunt, in provident quidem et. Est voluptate possimus beatae at iusto, cumque eum?</p>
+        <p id="changetext">Lorem ipsum dolor sit amet.</p>
+    </div>
+    <div>
+        <h2>Double Click on Button</h2>
+        <button class="img-toggle">Image Toggle</button>
+        <br><img src="./spring.jpeg" alt="" class="visible">
+    </div>
+    <div>
+        <h1 class="bgchange">Hover over me</h1>
+    </div>
+    <div>
+        <input type="text" id="keyinput" placeholder="write something">
+        <p id="displayParagraph">Current value will appear here...</p>
+    </div>
+    <form id="data" action="/submit" method="post">
+        <!-- Text input for username -->
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br><br>
+    
+        <!-- Password input -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+    
+        <!-- Radio buttons for gender -->
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+        <br><br>
+    
+        <!-- Select dropdown -->
+        <select name="fruits">
+            <option value="apple">Apple</option>
+            <option value="banana">Banana</option>
+            <option value="cherry">Cherry</option>
+        </select>
+        <br>
+        <p id="selected-item">Selected item will appear here</p>
+        <br>
+    
+        <!-- Submit button -->
+        <input type="submit" value="Submit">
+    </form>
+
+    <ul id="myList">
+        <button id="addItem">Add Item</button>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+        
+    </ul>
+    
+</body>
+<script>
+    // ---------------------------------Basic Event Handling--------------------------------
+    // Task 1: Add a click event listener to a button that changes the content of a paragraph
+    document.getElementById('changecontext').addEventListener('click', function() {
+        const textElement = document.getElementById('text');
+        const changeTextElement = document.getElementById('changetext');
+        if (textElement.style.display === 'none') {
+            textElement.style.display = 'block';
+            changeTextElement.style.display = 'none';
+        } else {
+            changeTextElement.style.display = 'block';
+            textElement.style.display = 'none';
+        }
+    });
+
+    // Task 2: Add a double-click event listener on an image that toggles its visibility
+    document.querySelector('.img-toggle').addEventListener('dblclick', function() {
+        document.querySelector('.visible').classList.toggle('appear');
+    });
+
+    // ---------------------------------Basic Event Handling--------------------------------
+    // Task 1: Add a mouseover event listener that changes the background
+    document.querySelector('.bgchange').addEventListener('mouseover', function() {
+        this.classList.add('bg');
+    });
+    document.querySelector('.bgchange').addEventListener('mouseout', function() {
+        this.classList.remove('bg');
+    });
+
+    // ---------------------------------Keyboard Events--------------------------------
+    // Task 1: Add a keydown event listener to an input field that logs the key pressed to the console
+    document.querySelector('#keyinput').addEventListener('keydown', function(event) {
+        console.log(`Key pressed down: ${event.key}`);
+    });
+
+    // Task 2: Add a keyup event listener to an input field that displays the current value in a paragraph
+    document.querySelector('#keyinput').addEventListener('keyup', function() {
+        document.querySelector('#displayParagraph').textContent = this.value;
+    });
+
+    // ---------------------------------Form Events--------------------------------
+    // Task 1: Add a submit event listener to a form to prevent default submission and log the form data to the console
+    document.getElementById('data').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            console.log(`Key: ${key}, Value: ${value}`);
+            data[key] = value;
+        });
+        console.log(data);
+    });
+
+    // Task 2: Add a change event listener to a select dropdown that displays the selected value in a paragraph
+    const changeFunction = (e) => {
+        let item = e.target.value;
+        document.getElementById('selected-item').textContent = `You selected ${item}`;
+    }
+
+    document.querySelector('select[name="fruits"]').addEventListener('change', changeFunction);
+
+    // ---------------------------------Form Events-----------------------------------------
+
+    // Task 1: Add a click event listener to the list that logs the content of clicked list items
+
+    // Select the list element
+    let list = document.getElementById('myList');
+
+    // Add event listener to the list
+    list.addEventListener('click', function(event) {
+        // Check if a list item (li) was clicked
+        if (event.target.tagName === 'LI') {
+            console.log(`Clicked item content: ${event.target.textContent}`);
+        }
+    });
+    function addnewitem (item){
+    const li = document.createElement('li');
+    // li.innerHTML = `Item ${document.querySelectorAll('#myList li').length + 1}`;
+    li.innerHTML = prompt(`${document.querySelectorAll('#myList li')}`)
+    list.appendChild(li)
+    }
+    const addItemButton= document.querySelector('#addItem')
+    addItemButton.addEventListener('click', addnewitem);
+
+
+    </script>
+</html>
